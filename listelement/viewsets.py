@@ -25,4 +25,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class TypeViewSet(viewsets.ModelViewSet):
     queryset = Type.objects.all()
     serializer_class = TypeSerializer
-    
+
+    @action(detail=True, methods=['get'])
+    def elemets(self, request, pk=None):
+        queryset = Element.objects.filter(type_id=pk)
+        serializer = ElementSerializer(queryset, many=True)
+        return Response(serializer.data)  
